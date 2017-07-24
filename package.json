@@ -1,0 +1,25 @@
+{
+  "name": "markojs-shared-state",
+  "version": "0.1.0",
+  "description": "Shared controller/state for MarkoJS",
+  "main": "SharedState.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Portchain/markojs-shared-state.git"
+  },
+  "keywords": [
+    "marko",
+    "js",
+    "state",
+    "mobx"
+  ],
+  "author": "Portchain ApS <contact@port-chain.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Portchain/markojs-shared-state/issues"
+  },
+  "homepage": "https://github.com/Portchain/markojs-shared-state#readme"
+}
