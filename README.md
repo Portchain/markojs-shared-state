@@ -35,7 +35,7 @@ module.exports = class {
 
 ```
 // reader.component.js
-
+var sharedState = require('marko-shared-state')()
 module.exports = class {
   onMount() {
     sharedState.bind(this, ['notifs'])
