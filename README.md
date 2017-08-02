@@ -8,7 +8,7 @@ pass input to all components.
 ```
 // writer.component.js
 
-var sharedState = require('marko-shared-state')()
+var sharedState = require('markojs-shared-state')()
 
 module.exports = class {
 
@@ -35,7 +35,7 @@ module.exports = class {
 
 ```
 // reader.component.js
-var sharedState = require('marko-shared-state')()
+var sharedState = require('markojs-shared-state')()
 module.exports = class {
   onMount() {
     sharedState.bind(this, ['notifs'])

@@ -4,6 +4,7 @@ function SharedState() {
   this._boundComponents = [];
   this._boundFields = {};
   this._listeners = {};
+  this._state = {}
 }
 
 SharedState.prototype.bind = function(component, fields) {
@@ -15,10 +16,14 @@ SharedState.prototype.bind = function(component, fields) {
     fields: fields
   });
   for(var i = 0 ; i < fields.length ; i++) {
-    if(!this._boundFields[fields[i]]) {
-      this._boundFields[fields[i]] = []
+    var field = fields[i]
+    if(!this._boundFields[field]) {
+      this._boundFields[field] = []
     }
-    this._boundFields[fields[i]].push(component)
+    this._boundFields[field].push(component)
+    if(this._state[field] !== undefined) {
+      component.setState(field, this._state[field])
+    }
   }
 }
 
@@ -42,13 +47,18 @@ SharedState.prototype.unbind = function(component) {
 }
 
 SharedState.prototype.setState = function(field, value) {
+  this._state[field] = value
   if(this._boundFields[field]) {
     for(var i = 0 ; i < this._boundFields[field].length ; i++) {
       var component = this._boundFields[field][i]
       component.setState(field, value)
     }
   }
-  this.emit('change', field, value)
+  this.emit(field, this._state[field])
+}
+
+SharedState.prototype.getState = function(field) {
+  return this._state[field]
 }
 
 SharedState.prototype.setStateDirty = function(field) {
@@ -58,7 +68,7 @@ SharedState.prototype.setStateDirty = function(field) {
       component.setStateDirty(field)
     }
   }
-  this.emit('dirty', field)
+  this.emit(field, this._state[field])
 }
 
 SharedState.prototype.on = function(eventName, func) {
@@ -85,14 +95,14 @@ SharedState.prototype.off = function(eventName, func) {
 SharedState.prototype.emit = function(eventName, data) {
   if(this._listeners[eventName]) {
     for(var i = 0 ; i < this._listeners[eventName].length ; i++) {
-      this._listeners[eventName][i].call(null, eventName, data)
+      this._listeners[eventName][i].call(null, data)
     }
   }
 }
 
 SharedState.prototype.defineAPI = function(apiName) {
   if(SharedState.prototype[apiName]) {
-    throw new Error('You cannot use API with name ['+apiName+'] because it is a reserved keyword') 
+    throw new Error('You cannot use API with name [' + apiName + '] because it is a reserved keyword') 
   }
   if(!apiName) {
     throw new Error('SharedState.defineAPI apiName cannot be null')
