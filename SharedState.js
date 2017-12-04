@@ -64,6 +64,9 @@ SharedState.prototype.getState = function(field) {
 }
 
 SharedState.prototype.setStateDirty = function(field, optionalValue) {
+  if(optionalValue !== undefined) {
+    this._state[field] = optionalValue;
+  }
   if(this._boundFields[field]) {
     for(var i = 0 ; i < this._boundFields[field].length ; i++) {
       var component = this._boundFields[field][i]
