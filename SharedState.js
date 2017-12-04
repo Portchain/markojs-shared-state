@@ -47,25 +47,27 @@ SharedState.prototype.unbind = function(component) {
 }
 
 SharedState.prototype.setState = function(field, value) {
-  this._state[field] = value
-  if(this._boundFields[field]) {
-    for(var i = 0 ; i < this._boundFields[field].length ; i++) {
-      var component = this._boundFields[field][i]
-      component.setState(field, value)
+  if(this._state[field] !== value) {
+    this._state[field] = value
+    if(this._boundFields[field]) {
+      for(var i = 0 ; i < this._boundFields[field].length ; i++) {
+        var component = this._boundFields[field][i]
+        component.setState(field, value)
+      }
     }
+    this.emit(field, this._state[field])
   }
-  this.emit(field, this._state[field])
 }
 
 SharedState.prototype.getState = function(field) {
   return this._state[field]
 }
 
-SharedState.prototype.setStateDirty = function(field) {
+SharedState.prototype.setStateDirty = function(field, optionalValue) {
   if(this._boundFields[field]) {
     for(var i = 0 ; i < this._boundFields[field].length ; i++) {
       var component = this._boundFields[field][i]
-      component.setStateDirty(field)
+      component.setStateDirty(field, optionalValue)
     }
   }
   this.emit(field, this._state[field])

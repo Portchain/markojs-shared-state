@@ -1,6 +1,6 @@
 {
   "name": "markojs-shared-state",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Shared controller/state for MarkoJS",
   "main": "SharedState.js",
   "scripts": {
